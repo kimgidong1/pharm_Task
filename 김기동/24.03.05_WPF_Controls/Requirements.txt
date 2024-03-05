@@ -1,0 +1,10 @@
+WPF 바인딩 개념 학습, WPF Control 사용법 학습
+
+0. 고객 class 만들기
+
+	- 고객명, 성별, 생년월일
+
+2. 여러 더미데이터 고객을 만들기
+
+3. DataGrid 컨트롤의 ItemSource, SelectedItem에
+	만든 더미데이터들 바인딩하기
