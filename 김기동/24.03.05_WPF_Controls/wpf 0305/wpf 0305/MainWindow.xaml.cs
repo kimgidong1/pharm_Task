@@ -20,9 +20,90 @@ namespace wpf_0305
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Customer> dummyCustomer = new List<Customer>();
+        class Customer
+        {
+            public string Name {  get; set; }
+            public string Gender {  get; set; }
+            public string Birth {  get; set; }
+
+            public Customer(string name, string gender, string birth)
+            {
+                Name = name;
+                Gender = gender;
+                Birth = birth;
+            }
+        }
+        public void Dummy()
+        {
+            // 더미 데이터 추가
+            dummyCustomer.Add(new Customer("김기동", "남", "990506"));
+            dummyCustomer.Add(new Customer("박기동", "남", "000506"));
+            dummyCustomer.Add(new Customer("신기동", "남", "010506"));
+        }
         public MainWindow()
         {
             InitializeComponent();
+            Dummy();
+            DG.ItemsSource = dummyCustomer;
+            DG.SelectedItem = dummyCustomer[0];
         }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string searchText = TB.Text;
+            foreach (var customer in dummyCustomer)
+            {
+                if (customer.Name == searchText)
+                {
+                    DG.SelectedItem = customer;
+                    return;
+                }
+            }
+            MessageBox.Show("검색 결과가 없습니다.");
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            if (DG.SelectedItem != null)
+            {
+                Customer selectedCustomer = (Customer)DG.SelectedItem;
+                selectedCustomer.Name = TB.Text;
+            }
+            else
+            {
+                MessageBox.Show("수정할 항목을 선택하세요.");
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (DG.SelectedItem != null)
+            {
+                Customer selectedCustomer = (Customer)DG.SelectedItem;
+                dummyCustomer.Remove(selectedCustomer);
+            }
+            else
+            {
+                MessageBox.Show("삭제할 항목을 선택하세요.");
+            }
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(TB.Text))
+            {
+                // 새로운 고객 생성
+                Customer newCustomer = new Customer(TB.Text, "", "");
+
+                dummyCustomer.Add(newCustomer);
+                DG.ItemsSource = dummyCustomer;
+            }
+            else
+            {
+                MessageBox.Show("고객 정보를 입력하세요.");
+            }
+        }
+
     }
 }
